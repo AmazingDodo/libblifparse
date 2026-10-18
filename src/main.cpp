@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
     }
 
     //Parse the file
-    blifparse::BlifPrettyPrinter callback(true);
+    blifparse::BlifPrettyPrinter callback;
     //NoOpCallback callback;
     blif_parse_filename(argv[1], callback);
 

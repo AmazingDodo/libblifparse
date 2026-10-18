@@ -24,15 +24,15 @@ void BlifPrettyPrinter::inputs(std::vector<std::string> input_conns) {
     if(print_file_line_) {
         printf("#%s:%d\n", filename_.c_str(), lineno_);
     }
-    printf(".inputs \\\n");
+    printf(".inputs ");
     ++indent_level_;
     for(size_t i = 0; i < input_conns.size(); ++i) {
-        printf("%s%s", indent().c_str(), input_conns[i].c_str());
+        printf("%s", input_conns[i].c_str());
         if(i != input_conns.size() - 1) {
-            printf(" \\");
+            printf(" ");
         }
-        printf("\n");
     }
+    printf("\n");
     --indent_level_;
 }
 
@@ -40,16 +40,16 @@ void BlifPrettyPrinter::outputs(std::vector<std::string> output_conns) {
     if(print_file_line_) {
         printf("#%s:%d\n", filename_.c_str(), lineno_);
     }
-    printf(".outputs \\\n");
+    printf(".outputs ");
 
     ++indent_level_;
     for(size_t i = 0; i < output_conns.size(); ++i) {
-        printf("%s%s", indent().c_str(), output_conns[i].c_str());
+        printf("%s", output_conns[i].c_str());
         if(i != output_conns.size() - 1) {
-            printf(" \\");
+            printf(" ");
         }
-        printf("\n");
     }
+    printf("\n");
     --indent_level_;
 }
 
