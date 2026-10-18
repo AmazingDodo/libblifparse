@@ -118,12 +118,66 @@ void BlifPrettyPrinter::latch(std::string input, std::string output, LatchType t
     --indent_level_;
 }
 
+void BlifPrettyPrinter::mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) {
+    printf("\n");
+    if(print_file_line_) {
+        printf("#%s:%d\n", filename_.c_str(), lineno_);
+    }
+    printf(".gate %s \\\n", name.c_str());
+
+    ++indent_level_;
+    assert(ports.size() == nets.size());
+    for(size_t i = 0; i < ports.size(); i++) {
+        printf("%s%s=%s", indent().c_str(), ports[i].c_str(), nets[i].c_str());
+
+        if(i != ports.size() - 1) {
+            printf(" \\");
+        }
+
+        printf("\n");
+    }
+    if(control.empty()) {
+        printf("%sNIL \\\n", indent().c_str());
+    } else {
+        printf("%s%s \\\n", indent().c_str(), control.c_str());
+    }
+    switch(init) {
+        case LogicValue::FALSE:     printf("%s0", indent().c_str()); break;
+        case LogicValue::TRUE:      printf("%s1", indent().c_str()); break;
+        case LogicValue::DONT_CARE: printf("%s2", indent().c_str()); break;
+        case LogicValue::UNKOWN:    printf("%s3", indent().c_str()); break;
+        default: assert(false);
+    }
+    --indent_level_;
+}
+
 void BlifPrettyPrinter::subckt(std::string model, std::vector<std::string> ports, std::vector<std::string> nets) {
     printf("\n");
     if(print_file_line_) {
         printf("#%s:%d\n", filename_.c_str(), lineno_);
     }
     printf(".subckt %s \\\n", model.c_str());
+
+    ++indent_level_;
+    assert(ports.size() == nets.size());
+    for(size_t i = 0; i < ports.size(); i++) {
+        printf("%s%s=%s", indent().c_str(), ports[i].c_str(), nets[i].c_str());
+
+        if(i != ports.size() - 1) {
+            printf(" \\");
+        }
+
+        printf("\n");
+    }
+    --indent_level_;
+}
+
+void BlifPrettyPrinter::gate(std::string name, std::vector<std::string> ports, std::vector<std::string> nets) {
+    printf("\n");
+    if(print_file_line_) {
+        printf("#%s:%d\n", filename_.c_str(), lineno_);
+    }
+    printf(".gate %s \\\n", name.c_str());
 
     ++indent_level_;
     assert(ports.size() == nets.size());

@@ -97,6 +97,7 @@ ENDL (\n|\n\r|\r\n)
                                 }
 <*>\.model                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_MODEL(); }
 <*>\.subckt                     { BEGIN(INITIAL); return blifparse::Parser::make_DOT_SUBCKT(); }
+<*>\.gate                       { BEGIN(INITIAL); return blifparse::Parser::make_DOT_GATE(); }
 <*>\.inputs                     { BEGIN(INITIAL); return blifparse::Parser::make_DOT_INPUTS(); }
 <*>\.outputs                    { BEGIN(INITIAL); return blifparse::Parser::make_DOT_OUTPUTS(); }
 <*>\.end                        { BEGIN(INITIAL); return blifparse::Parser::make_DOT_END(); }

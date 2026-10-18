@@ -20,6 +20,12 @@ struct SubCkt {
     std::vector<std::string> nets;
 };
 
+struct Gate {
+    std::string name;
+    std::vector<std::string> ports;
+    std::vector<std::string> nets;
+};
+
 /*
  * BLIF Extensions
  */

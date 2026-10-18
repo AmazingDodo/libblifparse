@@ -99,6 +99,7 @@ using namespace blifparse;
 %token DOT_LATCH ".latch"
 %token DOT_MODEL ".model"
 %token DOT_SUBCKT ".subckt"
+%token DOT_GATE ".gate"
 %token DOT_INPUTS ".inputs"
 %token DOT_OUTPUTS ".outputs"
 %token DOT_CLOCK ".clock"
@@ -130,6 +131,7 @@ using namespace blifparse;
 
 /* declare types */
 %type <SubCkt> subckt
+%type <Gate> gate
 %type <Names> names
 %type <std::vector<std::string>> string_list
 %type <std::vector<LogicValue>> so_cover_row
@@ -163,6 +165,7 @@ blif_data: /*empty*/ { }
                                               callback.lineno(lexer.lineno()-1); 
                                               callback.subckt($2.model, $2.ports, $2.nets);
                                             }
+    | blif_data gate EOL                    { callback.lineno(lexer.lineno()-1); callback.gate($2.name, $2.ports, $2.nets); }
     | blif_data latch EOL                   { /*callback already called */ }
     | blif_data DOT_BLACKBOX EOL            { callback.lineno(lexer.lineno()-1); callback.blackbox(); }
     | blif_data DOT_END EOL                 { callback.lineno(lexer.lineno()-1); callback.end_model(); }
@@ -188,6 +191,10 @@ names: DOT_NAMES string_list EOL { $$ = Names(); $$.nets = $2; }
 
 subckt: DOT_SUBCKT STRING       { $$ = SubCkt(); $$.model = $2; }
     | subckt STRING EQ STRING   { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
+    ;
+
+gate: DOT_GATE STRING       { $$ = Gate(); $$.name = $2; }
+    | gate STRING EQ STRING   { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
     ;
 
 latch: DOT_LATCH STRING STRING {
