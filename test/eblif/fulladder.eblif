@@ -1,0 +1,27 @@
+.model fulladder
+.inputs A B Cin
+.outputs Sum Cout 
+.gate libgate2 X=A O=X 
+.subckt libgate X=A O=X 
+.subckt halfadder A=A B=B Sum=S1 Cout=C1
+.subckt halfadder A=S1 B=Cin Sum=Sum  Cout=C2
+.names C1 C2 Cout 
+1- 1
+-1 1
+.end
+
+.model halfadder
+.inputs A B 
+.outputs Sum Cout 
+.names A B Sum 
+01 1
+10 1
+.names A B Cout 
+11 1
+.end 
+
+.model libgate
+.inputs X 
+.outputs O 
+.blackbox 
+.end

@@ -1,0 +1,9 @@
+.model halfadder
+.inputs A B 
+.outputs Sum Cout 
+.names A B Sum 
+01 1
+10 1
+.names A B Cout 
+11 1
+.end 
