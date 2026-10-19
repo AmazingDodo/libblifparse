@@ -2,6 +2,7 @@
 #define BLIF_COMMON_HPP
 
 #include "blifparse.hpp"
+#include <vector>
 
 namespace blifparse {
 
@@ -22,6 +23,11 @@ struct SubCkt {
 
 struct Gate {
     std::string name;
+    std::vector<std::string> ports;
+    std::vector<std::string> nets;
+};
+
+struct FormalActualList {
     std::vector<std::string> ports;
     std::vector<std::string> nets;
 };

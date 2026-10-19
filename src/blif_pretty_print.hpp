@@ -23,8 +23,6 @@ class BlifPrettyPrinter : public Callback {
 
         void latch(std::string input, std::string output, LatchType type, std::string control, LogicValue init) override;
 
-        void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) override;
-
         void subckt(std::string model, std::vector<std::string> ports, std::vector<std::string> nets) override;
 
         void gate(std::string name, std::vector<std::string> ports, std::vector<std::string> nets) override;
@@ -33,6 +31,10 @@ class BlifPrettyPrinter : public Callback {
 
         void end_model() override;
 
+
+        void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) override;
+
+        
         //BLIF Extensions
         void conn(std::string src, std::string dst) override;
         void cname(std::string cell_name) override;

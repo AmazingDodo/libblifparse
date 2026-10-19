@@ -120,6 +120,8 @@ using namespace blifparse;
 %token EOL "end-of-line"
 %token EOF 0 "end-of-file"
 
+%token DOT_MLATCH ".mlatch"
+
 /*BLIF extensions */
 %token DOT_CONN ".conn"
 %token DOT_ATTR ".attr"
@@ -139,6 +141,8 @@ using namespace blifparse;
 %type <LogicValue> latch_init
 %type <std::string> latch_control
 %type <LatchType> latch_type
+
+%type <FormalActualList> fa_list
 
 /* BLIF Extensions */
 %type <Conn> conn
@@ -169,6 +173,9 @@ blif_data: /*empty*/ { }
     | blif_data latch EOL                   { /*callback already called */ }
     | blif_data DOT_BLACKBOX EOL            { callback.lineno(lexer.lineno()-1); callback.blackbox(); }
     | blif_data DOT_END EOL                 { callback.lineno(lexer.lineno()-1); callback.end_model(); }
+
+    | blif_data mlatch EOL                   { /*callback already called */ }
+
     | blif_data conn EOL                    { callback.lineno(lexer.lineno()-1); callback.conn($2.src, $2.dst); }
     | blif_data cname EOL                   { callback.lineno(lexer.lineno()-1); callback.cname($2.name); }
     | blif_data attr EOL                    { callback.lineno(lexer.lineno()-1); callback.attr($2.name, $2.value); }
@@ -189,9 +196,7 @@ names: DOT_NAMES string_list EOL { $$ = Names(); $$.nets = $2; }
                              }
     ;
 
-subckt: DOT_SUBCKT STRING       { $$ = SubCkt(); $$.model = $2; }
-    | subckt STRING EQ STRING   { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
-    ;
+subckt: DOT_SUBCKT STRING fa_list { $$ = SubCkt(); $$.model = $2; $$.ports = std::move($3.ports); $$.nets = std::move($3.nets); }
 
 gate: DOT_GATE STRING       { $$ = Gate(); $$.name = $2; }
     | gate STRING EQ STRING   { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
@@ -247,6 +252,23 @@ logic_value: LOGIC_TRUE { $$ = LogicValue::TRUE; }
 
 string_list: /*empty*/ { $$ = std::vector<std::string>(); }
     | string_list STRING { $$ = std::move($1); $$.push_back($2); }
+    ;
+
+fa_list: /*empty*/ { $$ = FormalActualList(); }
+    | fa_list STRING EQ STRING { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
+    ;
+
+
+mlatch: DOT_MLATCH STRING fa_list latch_control {
+                                    // name, formal-actual-list, control
+                                    callback.lineno(lexer.lineno());
+                                    callback.mlatch($2, std::move($3.ports), std::move($3.nets), $4, LogicValue::UNKOWN);
+                                }
+    | DOT_MLATCH STRING fa_list latch_control latch_init {
+                                    // name, formal-actual-list, control, init-value
+                                    callback.lineno(lexer.lineno());
+                                    callback.mlatch($2, std::move($3.ports), std::move($3.nets), $4, $5);
+                                }
     ;
 
 /*

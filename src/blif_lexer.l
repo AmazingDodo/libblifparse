@@ -103,13 +103,23 @@ ENDL (\n|\n\r|\r\n)
 <*>\.end                        { BEGIN(INITIAL); return blifparse::Parser::make_DOT_END(); }
 <*>\.blackbox                   { BEGIN(INITIAL); return blifparse::Parser::make_DOT_BLACKBOX(); }
 
+<*>\.mlatch                     {
+                                  /*
+                                   * The initial state value of a latch is ambiguous (it chould be
+                                   * interpreted as a string or logic value string). So we use
+                                   * a special lexer state to capture it.
+                                   */
+                                  BEGIN(LATCH);
+                                  return blifparse::Parser::make_DOT_MLATCH();
+                                }
+
 <*>\.conn                       { BEGIN(INITIAL); return blifparse::Parser::make_DOT_CONN(); /*BLIF extension */}
 <*>\.attr                       { BEGIN(INITIAL); return blifparse::Parser::make_DOT_ATTR(); /*BLIF extension */}
 <*>\.param                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_PARAM(); /*BLIF extension */}
 <*>\.cname                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_CNAME(); /*BLIF extension */}
 
 
-=                               { return blifparse::Parser::make_EQ();}
+<*>=                            { return blifparse::Parser::make_EQ();}
 <LATCH>fe                       { return blifparse::Parser::make_LATCH_FE(); }
 <LATCH>re                       { return blifparse::Parser::make_LATCH_RE(); }
 <LATCH>ah                       { return blifparse::Parser::make_LATCH_AH(); }

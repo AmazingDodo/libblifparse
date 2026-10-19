@@ -63,10 +63,6 @@ class Callback {
         //.latch
         virtual void latch(std::string input, std::string output, LatchType type, std::string control, LogicValue init) = 0;
 
-        //.mlatch
-        
-        virtual void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) = 0;
-
         //.subckt
         virtual void subckt(std::string model, std::vector<std::string> ports, std::vector<std::string> nets) = 0;
 
@@ -78,6 +74,11 @@ class Callback {
 
         //.end (of a .model)
         virtual void end_model() = 0;
+        
+
+        //.mlatch
+        virtual void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) = 0;
+
 
         //.conn [Extended BLIF, produces an error if not overriden]
         virtual void conn(std::string src, std::string dst);
