@@ -198,8 +198,13 @@ names: DOT_NAMES string_list EOL { $$ = Names(); $$.nets = $2; }
 
 subckt: DOT_SUBCKT STRING fa_list { $$ = SubCkt(); $$.model = $2; $$.ports = std::move($3.ports); $$.nets = std::move($3.nets); }
 
-gate: DOT_GATE STRING       { $$ = Gate(); $$.name = $2; }
-    | gate STRING EQ STRING   { $$ = std::move($1); $$.ports.push_back($2); $$.nets.push_back($4); }
+gate: DOT_GATE STRING fa_list 
+                { 
+                    $$ = Gate();
+                    $$.name = $2;
+                    $$.ports = std::move($3.ports);
+                    $$.nets = std::move($3.nets);
+                }
     ;
 
 latch: DOT_LATCH STRING STRING {
