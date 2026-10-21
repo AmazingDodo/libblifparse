@@ -118,6 +118,8 @@ ENDL (\n|\n\r|\r\n)
 <*>\.param                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_PARAM(); /*BLIF extension */}
 <*>\.cname                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_CNAME(); /*BLIF extension */}
 
+<*>\.clock                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_CLOCK(); }
+
 
 <*>=                            { return blifparse::Parser::make_EQ();}
 <LATCH>fe                       { return blifparse::Parser::make_LATCH_FE(); }

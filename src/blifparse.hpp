@@ -79,6 +79,9 @@ class Callback {
         //.mlatch
         virtual void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) = 0;
 
+        //.clock
+        virtual void clock(std::vector<std::string> clocks) = 0;
+
 
         //.conn [Extended BLIF, produces an error if not overriden]
         virtual void conn(std::string src, std::string dst);

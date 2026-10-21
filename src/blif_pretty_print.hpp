@@ -1,6 +1,8 @@
 #ifndef BLIF_PRETTY_PRINT
 #define BLIF_PRETTY_PRINT
 #include <cstdio>
+#include <string>
+#include <vector>
 #include "blifparse.hpp"
 
 namespace blifparse {
@@ -33,6 +35,8 @@ class BlifPrettyPrinter : public Callback {
 
 
         void mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) override;
+
+        void clock(std::vector<std::string> clocks) override;
 
         
         //BLIF Extensions

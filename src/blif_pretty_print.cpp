@@ -200,6 +200,15 @@ void BlifPrettyPrinter::mlatch(std::string name, std::vector<std::string> ports,
 }
 
 
+void BlifPrettyPrinter::clock(std::vector<std::string> clocks) {
+    printf(".clock");
+    for(auto c : clocks) {
+        printf(" %s", c.c_str());
+    }
+    printf("\n");
+}
+
+
 void BlifPrettyPrinter::conn(std::string src, std::string dst) {
     if(print_file_line_) {
         printf("#%s:%d\n", filename_.c_str(), lineno_);

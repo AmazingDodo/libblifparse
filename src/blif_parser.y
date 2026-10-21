@@ -174,7 +174,8 @@ blif_data: /*empty*/ { }
     | blif_data DOT_BLACKBOX EOL            { callback.lineno(lexer.lineno()-1); callback.blackbox(); }
     | blif_data DOT_END EOL                 { callback.lineno(lexer.lineno()-1); callback.end_model(); }
 
-    | blif_data mlatch EOL                   { /*callback already called */ }
+    | blif_data mlatch EOL                  { /*callback already called */ }
+    | blif_data DOT_CLOCK string_list EOL   { callback.lineno(lexer.lineno()-1); callback.clock($3); }
 
     | blif_data conn EOL                    { callback.lineno(lexer.lineno()-1); callback.conn($2.src, $2.dst); }
     | blif_data cname EOL                   { callback.lineno(lexer.lineno()-1); callback.cname($2.name); }
