@@ -141,24 +141,20 @@ void BlifPrettyPrinter::subckt(std::string model, std::vector<std::string> ports
 }
 
 void BlifPrettyPrinter::gate(std::string name, std::vector<std::string> ports, std::vector<std::string> nets) {
-    printf("\n");
     if(print_file_line_) {
         printf("#%s:%d\n", filename_.c_str(), lineno_);
     }
-    printf(".gate %s \\\n", name.c_str());
+    printf(".gate %s ", name.c_str());
 
-    ++indent_level_;
     assert(ports.size() == nets.size());
     for(size_t i = 0; i < ports.size(); i++) {
-        printf("%s%s=%s", indent().c_str(), ports[i].c_str(), nets[i].c_str());
+        printf("%s=%s", ports[i].c_str(), nets[i].c_str());
 
         if(i != ports.size() - 1) {
-            printf(" \\");
+            printf(" ");
         }
-
-        printf("\n");
     }
-    --indent_level_;
+    printf("\n");
 }
 
 void BlifPrettyPrinter::blackbox() {
@@ -179,14 +175,14 @@ void BlifPrettyPrinter::end_model() {
 void BlifPrettyPrinter::mlatch(std::string name, std::vector<std::string> ports, std::vector<std::string> nets, std::string control, LogicValue init) {
     printf(".mlatch %s ", name.c_str());
 
-    if(control.empty()) {
+    for(size_t i = 0; i < ports.size(); ++i) {
+        printf("%s=%s ", ports[i].c_str(), nets[i].c_str());
+    }
+
+        if(control.empty()) {
         printf("NIL ");
     } else {
         printf("%s ", control.c_str());
-    }
-
-    for(size_t i = 0; i < ports.size(); ++i) {
-        printf("%s=%s", ports[i].c_str(), nets[i].c_str());
     }
 
     switch(init) {
