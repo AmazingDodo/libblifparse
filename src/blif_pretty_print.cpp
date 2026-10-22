@@ -7,7 +7,7 @@
 namespace blifparse {
 
 void BlifPrettyPrinter::start_parse() {
-    //Pass
+    printf("# begin parsing %s\n", filename_.c_str());
 }
 
 void BlifPrettyPrinter::finish_parse() {

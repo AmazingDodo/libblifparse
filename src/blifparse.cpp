@@ -59,11 +59,11 @@ void blif_parse_file(FILE* blif_file, Callback& callback, const char* filename) 
     //Setup the parser + lexer
     Parser parser(lexer, callback);
 
-    //Just before parsing starts
-    callback.start_parse();
-
     //Tell the caller the file name
     callback.filename(filename); 
+
+    //Just before parsing starts
+    callback.start_parse();
 
     //Do the actual parse
     int error = parser.parse();
