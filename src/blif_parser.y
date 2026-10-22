@@ -121,6 +121,7 @@ using namespace blifparse;
 %token EOF 0 "end-of-file"
 
 %token DOT_MLATCH ".mlatch"
+%token DOT_EXDC ".exdc"
 
 /*BLIF extensions */
 %token DOT_CONN ".conn"
@@ -176,6 +177,7 @@ blif_data: /*empty*/ { }
 
     | blif_data mlatch EOL                  { /*callback already called */ }
     | blif_data DOT_CLOCK string_list EOL   { callback.lineno(lexer.lineno()-1); callback.clock($3); }
+    | blif_data DOT_EXDC EOL                { callback.lineno(lexer.lineno()-1); callback.exdc(); }
 
     | blif_data conn EOL                    { callback.lineno(lexer.lineno()-1); callback.conn($2.src, $2.dst); }
     | blif_data cname EOL                   { callback.lineno(lexer.lineno()-1); callback.cname($2.name); }

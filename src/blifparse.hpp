@@ -82,6 +82,9 @@ class Callback {
         //.clock
         virtual void clock(std::vector<std::string> clocks) = 0;
 
+        //.exdc
+        virtual void exdc() = 0;
+
 
         //.conn [Extended BLIF, produces an error if not overriden]
         virtual void conn(std::string src, std::string dst);

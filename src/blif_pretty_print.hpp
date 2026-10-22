@@ -38,6 +38,8 @@ class BlifPrettyPrinter : public Callback {
 
         void clock(std::vector<std::string> clocks) override;
 
+        void exdc() override;
+
         
         //BLIF Extensions
         void conn(std::string src, std::string dst) override;

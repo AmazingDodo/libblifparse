@@ -208,6 +208,10 @@ void BlifPrettyPrinter::clock(std::vector<std::string> clocks) {
     printf("\n");
 }
 
+void BlifPrettyPrinter::exdc() {
+    printf(".exdc\n");
+}
+
 
 void BlifPrettyPrinter::conn(std::string src, std::string dst) {
     if(print_file_line_) {
