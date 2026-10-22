@@ -63,6 +63,7 @@
 %lex-param {Lexer& lexer}
 %parse-param {Lexer& lexer}
 %parse-param {Callback& callback}
+%parse-param {std::vector<std::string>& pending_files}
 
 
 %code requires {
@@ -122,6 +123,7 @@ using namespace blifparse;
 
 %token DOT_MLATCH ".mlatch"
 %token DOT_EXDC ".exdc"
+%token DOT_SEARCH ".search"
 
 /*BLIF extensions */
 %token DOT_CONN ".conn"
@@ -178,6 +180,11 @@ blif_data: /*empty*/ { }
     | blif_data mlatch EOL                  { /*callback already called */ }
     | blif_data DOT_CLOCK string_list EOL   { callback.lineno(lexer.lineno()-1); callback.clock($3); }
     | blif_data DOT_EXDC EOL                { callback.lineno(lexer.lineno()-1); callback.exdc(); }
+    | blif_data DOT_SEARCH STRING EOL       { 
+                                              callback.lineno(lexer.lineno()-1); 
+                                              pending_files.push_back($3);
+                                              callback.search(std::move($3));
+                                            }
 
     | blif_data conn EOL                    { callback.lineno(lexer.lineno()-1); callback.conn($2.src, $2.dst); }
     | blif_data cname EOL                   { callback.lineno(lexer.lineno()-1); callback.cname($2.name); }

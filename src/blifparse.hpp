@@ -85,6 +85,9 @@ class Callback {
         //.exdc
         virtual void exdc() = 0;
 
+        //.search
+        virtual void search(std::string filename) = 0;
+
 
         //.conn [Extended BLIF, produces an error if not overriden]
         virtual void conn(std::string src, std::string dst);
@@ -113,7 +116,7 @@ void blif_parse_filename(std::string filename, Callback& callback);
 void blif_parse_filename(const char* filename, Callback& callback);
 
 //Loads from 'blif'. 'filename' only used to pass a filename to callback and can be left unspecified
-void blif_parse_file(FILE* blif, Callback& callback, const char* filename=""); 
+void blif_parse_file(FILE* blif, Callback& callback, std::vector<std::string>& file_stack, const char* filename=""); 
 
 /*
  * Enumerations

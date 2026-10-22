@@ -40,6 +40,8 @@ class BlifPrettyPrinter : public Callback {
 
         void exdc() override;
 
+        void search(std::string filename) override;
+
         
         //BLIF Extensions
         void conn(std::string src, std::string dst) override;

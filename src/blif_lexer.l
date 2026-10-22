@@ -120,6 +120,7 @@ ENDL (\n|\n\r|\r\n)
 
 <*>\.clock                      { BEGIN(INITIAL); return blifparse::Parser::make_DOT_CLOCK(); }
 <*>\.exdc                       { BEGIN(INITIAL); return blifparse::Parser::make_DOT_EXDC(); }
+<*>\.search                     { BEGIN(INITIAL); return blifparse::Parser::make_DOT_SEARCH(); }
 
 
 <*>=                            { return blifparse::Parser::make_EQ();}

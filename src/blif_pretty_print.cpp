@@ -208,6 +208,10 @@ void BlifPrettyPrinter::exdc() {
     printf(".exdc\n");
 }
 
+void BlifPrettyPrinter::search(std::string filename){
+    printf(".search %s\n", filename.c_str());
+};
+
 
 void BlifPrettyPrinter::conn(std::string src, std::string dst) {
     if(print_file_line_) {
