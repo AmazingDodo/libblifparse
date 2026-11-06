@@ -246,7 +246,7 @@ latch_init: LOGIC_TRUE { $$ = LogicValue::TRUE; }
     ;
 
 latch_control: STRING { $$ = $1;}
-    | NIL { $$ = ""; }
+    | NIL { $$ = "NIL"; }
     ;
 
 latch_type: LATCH_FE { $$ = LatchType::FALLING_EDGE; }

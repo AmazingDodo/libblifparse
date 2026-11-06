@@ -104,9 +104,7 @@ void BlifPrettyPrinter::latch(std::string input, std::string output, LatchType t
         default: assert(false);
 
     }
-    if(control.empty()) {
-        printf("%sNIL \\\n", indent().c_str());
-    } else {
+    if(!control.empty()) {
         printf("%s%s \\\n", indent().c_str(), control.c_str());
     }
     switch(init) {
@@ -179,11 +177,7 @@ void BlifPrettyPrinter::mlatch(std::string name, std::vector<std::string> ports,
         printf("%s=%s ", ports[i].c_str(), nets[i].c_str());
     }
 
-        if(control.empty()) {
-        printf("NIL ");
-    } else {
-        printf("%s ", control.c_str());
-    }
+    printf("%s ", control.c_str());
 
     switch(init) {
         case LogicValue::FALSE:     printf("0"); break;
