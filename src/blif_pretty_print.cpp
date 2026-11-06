@@ -115,6 +115,7 @@ void BlifPrettyPrinter::latch(std::string input, std::string output, LatchType t
         default: assert(false);
     }
     --indent_level_;
+    printf("\n");
 }
 
 void BlifPrettyPrinter::subckt(std::string model, std::vector<std::string> ports, std::vector<std::string> nets) {
